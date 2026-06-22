@@ -51,15 +51,19 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 
 ```
 $ python -m pytest tests/ -v
-============================= test session starts ==============================
-collected 4 items
+=========================================================== test session starts ============================================================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/yongh/code/codepath/ai110-module1show-gameglitchinvestigator-starter/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/yongh/code/codepath/ai110-module1show-gameglitchinvestigator-starter
+plugins: anyio-4.14.0
+collected 4 items                                                                                                                          
 
-tests/test_game_logic.py::test_winning_guess PASSED                      [ 25%]
-tests/test_game_logic.py::test_guess_too_high PASSED                     [ 50%]
-tests/test_game_logic.py::test_guess_too_low PASSED                      [ 75%]
-tests/test_game_logic.py::test_hard_difficulty_range PASSED              [100%]
+tests/test_game_logic.py::test_winning_guess PASSED                                                                                  [ 25%]
+tests/test_game_logic.py::test_guess_too_high PASSED                                                                                 [ 50%]
+tests/test_game_logic.py::test_guess_too_low PASSED                                                                                  [ 75%]
+tests/test_game_logic.py::test_hard_difficulty_range PASSED                                                                          [100%]
 
-============================== 4 passed in 0.01s ===============================
+============================================================ 4 passed in 0.01s =============================================================
 ```
 
 ## 🚀 Stretch Features
