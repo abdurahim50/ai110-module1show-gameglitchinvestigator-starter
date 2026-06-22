@@ -21,9 +21,9 @@ Document at least 3 bugs you found. Add rows as needed.
 
 | Input | Expected Behavior | Actual Behavior | Console Output / Error |
 |-------|-------------------|-----------------|------------------------|
-| On Normal, I guessed 50 and then 80 | The hints should point me toward the answer and agree with each other | 50 told me "Go LOWER!" and 80 told me "Go HIGHER!" — that can't both be true, so the hints were clearly backwards | No error, it just gave me advice that sent me the wrong way |
-| Picked Hard and played a round | A Hard game should stay inside the 1 to 50 range it advertises | The sidebar said "Range: 1 to 50" but the info box said "between 1 and 100," and the secret turned out to be 74 — way outside Hard's range | No error, the range was just wrong in two different places at once |
-| Switched the difficulty from Hard to Easy | Changing difficulty should start me a fresh game I can actually play | It said "Game over. Start a new game to try again." before I had made a single guess on Easy | No error, the lost status from my previous game stuck around |
+| On Normal, I guessed 50 and then 80 | The hints should point me toward the answer and agree with each other | 50 told me "Go LOWER!" and 80 told me "Go HIGHER!" — that can't both be true, so the hints were clearly backwards | No crash. Code-level cause: in `check_guess`, the "Too High" outcome was paired with the message "📈 Go HIGHER!" and "Too Low" with "📉 Go LOWER!" — the hint text was swapped |
+| Picked Hard and played a round | A Hard game should stay inside the 1 to 50 range it advertises | The sidebar said "Range: 1 to 50" but the info box said "between 1 and 100," and the secret turned out to be 74 — way outside Hard's range | No crash. Code-level cause: the info box string was hardcoded to "between 1 and 100", and "New Game" set the secret with `random.randint(1, 100)` instead of using the difficulty's range |
+| Switched the difficulty from Hard to Easy | Changing difficulty should start me a fresh game I can actually play | It said "Game over. Start a new game to try again." before I had made a single guess on Easy | No crash. Code-level cause: `st.session_state.status` stayed "lost" across difficulty changes because nothing reset the game state when the difficulty selectbox changed |
 
 ---
 
