@@ -44,6 +44,25 @@ def check_guess(guess, secret):
     return "Too Low"
 
 
+def proximity(guess, secret, low, high):
+    """Return a Hot/Warm/Cold label based on how close the guess is.
+
+    Distance is judged relative to the size of the difficulty's range, so
+    "Hot" means roughly the same closeness on Easy as on Normal.
+    """
+    if guess == secret:
+        return "🎯 Bullseye!"
+
+    span = max(high - low, 1)
+    ratio = abs(guess - secret) / span
+
+    if ratio <= 0.10:
+        return "🔥 Hot"
+    if ratio <= 0.30:
+        return "♨️ Warm"
+    return "❄️ Cold"
+
+
 def update_score(current_score: int, outcome: str, attempt_number: int):
     """Update score based on outcome and attempt number.
 

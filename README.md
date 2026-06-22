@@ -64,4 +64,14 @@ tests/test_game_logic.py::test_hard_difficulty_range PASSED              [100%]
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
+### Challenge 4: Enhanced Game UI
+
+- [x] Enhanced UI implemented.
+
+I added two user-friendly enhancements that improve feedback without changing the core game rules:
+
+1. **Hot / Warm / Cold proximity cues.** After each guess, the game shows how close you are with an emoji label (🔥 Hot, ♨️ Warm, ❄️ Cold, or 🎯 Bullseye). The closeness is judged relative to the difficulty's range, so "Hot" feels consistent across Easy/Normal/Hard. This is computed by the new `proximity(guess, secret, low, high)` function in `logic_utils.py` and displayed alongside the higher/lower hint in `app.py` (see the `if submit:` block).
+
+2. **Session summary table.** A "📊 Your guesses this round" table at the bottom lists every guess with its attempt number, the value guessed, the result (Win / Too High / Too Low), and the proximity label. This is rendered with `st.table(st.session_state.history)` near the end of `app.py`, and each row is recorded as a structured dict in the `if submit:` handler.
+
+Both features leave `check_guess`, `parse_guess`, `update_score`, and the win/lose logic untouched — they only add presentation on top.

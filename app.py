@@ -6,6 +6,7 @@ from logic_utils import (
     parse_guess,
     check_guess,
     update_score,
+    proximity,
 )
 
 # Map each outcome to the hint shown to the player.
@@ -105,13 +106,24 @@ if submit:
         st.error(err)
     else:
         st.session_state.attempts += 1
-        st.session_state.history.append(guess_int)
 
         outcome = check_guess(guess_int, st.session_state.secret)
         message = HINT_MESSAGES[outcome]
+        # ENHANCED UI: Hot/Cold cue based on how close the guess is.
+        closeness = proximity(guess_int, st.session_state.secret, low, high)
+
+        # ENHANCED UI: store a structured row per guess for the summary table.
+        st.session_state.history.append(
+            {
+                "Attempt": st.session_state.attempts,
+                "Guess": guess_int,
+                "Result": outcome,
+                "Proximity": closeness,
+            }
+        )
 
         if show_hint:
-            st.warning(message)
+            st.warning(f"{message}  ·  {closeness}")
 
         st.session_state.score = update_score(
             current_score=st.session_state.score,
@@ -133,6 +145,11 @@ if submit:
                 f"The secret was {st.session_state.secret}. "
                 f"Score: {st.session_state.score}"
             )
+
+# ENHANCED UI: show a summary table of every guess made this round.
+if st.session_state.history:
+    st.subheader("📊 Your guesses this round")
+    st.table(st.session_state.history)
 
 st.divider()
 st.caption("Built by an AI that claims this code is production-ready.")
