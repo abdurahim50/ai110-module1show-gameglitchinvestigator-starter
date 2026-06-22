@@ -25,28 +25,41 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] Describe the game's purpose.
+- [x] Detail which bugs you found.
+- [x] Explain what fixes you applied.
+
+**Game's purpose:** A number guessing game built with Streamlit. You pick a difficulty, guess a number within the range, and use the "higher/lower" hints to find the secret before running out of attempts.
+
+**Bugs found:** (1) the hints were backwards, (2) the difficulty range was inconsistent (Hard said 1–50 but the info box said 1–100 and the secret could be 74), and (3) changing difficulty didn't reset the game so it showed "Game over" before I guessed. See `reflection.md` for the full Bug Reproduction Log.
+
+**Fixes applied:** Refactored the game logic into `logic_utils.py`, corrected the high/low hint wording, generated the secret from the selected difficulty's range, and reset game state whenever the difficulty changes. Verified with `pytest` (4 passing) and by replaying the game.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Open the sidebar and pick a difficulty. The range and attempts allowed update to match (Easy is 1 to 20, Normal is 1 to 100, Hard is 1 to 50).
+2. Read the info box. It now shows the correct range for whatever difficulty you picked, plus how many attempts you have left.
+3. Type a number into "Enter your guess" and hit Submit Guess. If you guess too high it tells you to go LOWER, and if you guess too low it tells you to go HIGHER — the hints finally point the right way.
+4. Keep guessing. The attempts-left counter goes down by one each time, and the secret number stays the same the whole round (you can confirm this in the Developer Debug Info panel).
+5. Guess the secret and you win, with balloons and a final score. If you change the difficulty mid-game, it starts a fresh, playable game instead of carrying over a "Game over."
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
 ## 🧪 Test Results
 
 ```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
+$ python -m pytest tests/ -v
+============================= test session starts ==============================
+collected 4 items
+
+tests/test_game_logic.py::test_winning_guess PASSED                      [ 25%]
+tests/test_game_logic.py::test_guess_too_high PASSED                     [ 50%]
+tests/test_game_logic.py::test_guess_too_low PASSED                      [ 75%]
+tests/test_game_logic.py::test_hard_difficulty_range PASSED              [100%]
+
+============================== 4 passed in 0.01s ===============================
 ```
 
 ## 🚀 Stretch Features
